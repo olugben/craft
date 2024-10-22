@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: craft
+  datasource:
+    url: jdbc:mysql://localhost:3306/jwt_security
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 8599
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  show_sql: true
+  properties:
+    hibernate:
+      format_sql: true
+  database: mysql
+  database-platform: org.hibernate.dialect.MysqlDialect
+server:
+  error:
+    include-message: never
+
+ 
