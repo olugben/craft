@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import io.github.cdimascio.dotenv.Dotenv;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,22 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+    private Dotenv dotenv = Dotenv.load();
 
-    private static final String SECRET_KEY = "";
 
+
+    
+    private final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
+    
+    public JwtService() {
+        dotenv = Dotenv.load();
+          // Load the .env file
+    }
+
+    public String getSecretKey() {
+        // Fetch the JWT_SECRET_KEY from the .env file
+        return dotenv.get("JWT_SECRET_KEY");
+    }
     public String extractUsername(String token) {
 
         return extractClaim(token, Claims::getSubject);

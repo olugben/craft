@@ -25,8 +25,8 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(authz->authz.requestMatchers("/api/v1/auth/**")
         
         .permitAll()
-        .requestMatchers("/api/v1/student/**").hasRole("STUDENT")
-        .requestMatchers("/api/v1/tutor/**").hasRole("TUTOR")
+        .requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
+        .requestMatchers("/api/v1/tutor/**").hasAuthority("TUTOR")
         .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
         .anyRequest()
         .authenticated())

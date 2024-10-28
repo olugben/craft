@@ -29,12 +29,12 @@ public class AdminController {
 
     @GetMapping("/manage")
     public String manageUsers() {
-        return "Admin can manage users.";
+        return "Admin can manage users";
     }
 
     @GetMapping("/settings")
     public String accessSettings() {
-        return "Admin can access settings.";
+        return "Admin can access settings";
     }
 
 }
