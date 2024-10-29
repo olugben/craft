@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import net.hammed.craft.config.JwtService;
-import net.hammed.craft.user.Role;
+
 import net.hammed.craft.user.User;
 import net.hammed.craft.user.UserRepository;
 import org.slf4j.Logger;

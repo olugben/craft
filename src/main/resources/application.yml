@@ -15,6 +15,10 @@ spring:
       format_sql: true
   database: mysql
   database-platform: org.hibernate.dialect.MysqlDialect
+  servlet:
+    multipart:
+      max-file-size: 10MB         # Set maximum file size for individual uploads
+      max-request-size: 10MB       # Set maximum request size for the entire request
 server:
   error:
     include-message: never

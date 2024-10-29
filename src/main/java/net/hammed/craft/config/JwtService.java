@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import io.github.cdimascio.dotenv.Dotenv;
 
-import org.apache.logging.log4j.Logger;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
