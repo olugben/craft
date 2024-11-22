@@ -20,14 +20,15 @@ public class SecurityConfiguration {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http
+        http.cors(cors->cors.disable())
         .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(authz->authz.requestMatchers("/api/v1/auth/**")
         
-        .permitAll()
+        .authorizeHttpRequests(authz->authz.requestMatchers("/api/v1/auth/**").permitAll()
+        .requestMatchers("/ws/**").permitAll()
         .requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
         .requestMatchers("/api/v1/tutor/**").hasAuthority("TUTOR")
         .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
+        
         .anyRequest()
         .authenticated())
         // .exceptionHandling(exceptions -> exceptions
