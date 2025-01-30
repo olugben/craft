@@ -1,26 +1,76 @@
 spring:
+  profiles:
+    active: dev # Change this to 'prod' when deploying to production
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
   application:
     name: craft
   datasource:
-    url: jdbc:mysql://localhost:3306/jwt_security
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 8599
+    url: jdbc:mysql://localhost:3306/jwt_security  # PostgreSQL URL
+    driver-class-name: com.mysql.cj.jdbc.Driver          # PostgreSQL Driver
+    username: root                         # Your PostgreSQL username
+    password: 8599                         # Your PostgreSQL password
   jpa:
     hibernate:
       ddl-auto: create
-  show_sql: true
-  properties:
-    hibernate:
-      format_sql: true
-  database: mysql
-  database-platform: org.hibernate.dialect.MysqlDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect  # Explicitly set Hibernate dialect
+  show-sql: true  # Ensure there's no underscore
   servlet:
     multipart:
-      max-file-size: 10MB         # Set maximum file size for individual uploads
-      max-request-size: 10MB       # Set maximum request size for the entire request
+      max-file-size: 1000MB
+      max-request-size: 1000MB
 server:
   error:
     include-message: never
 
- 
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.web.authentication: DEBUG
+    org.springframework.security.web.access: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.authorization: DEBUG
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: craft
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ec2-craft
+  # PostgreSQL URL
+    driver-class-name: org.postgresql.Driver                      # PostgreSQL Driver
+    username: postgres
+    password: 8599                                            # Your PostgreSQL username for production
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+       
+  show-sql: false  # Ensure there's no underscore
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+server:
+  error:
+    include-message: never
+
+logging:
+  level:
+    org.springframework.security: ERROR
+    org.springframework.security.web.authentication: ERROR
+    org.springframework.security.web.access: ERROR
+    org.springframework.security.authentication: ERROR
+    org.springframework.security.authorization: ERROR

@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -17,20 +18,21 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    // private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors(cors->cors.disable())
+        http.cors(withDefaults())
         .csrf(csrf -> csrf.disable())
         
         .authorizeHttpRequests(authz->authz.requestMatchers("/api/v1/auth/**").permitAll()
+        
         .requestMatchers("/ws/**").permitAll()
+        // .requestMatchers("/api/v1/tutor/materials/**").permitAll()
         .requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
         .requestMatchers("/api/v1/tutor/**").hasAuthority("TUTOR")
         .requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
         
-        .anyRequest()
-        .authenticated())
+        .anyRequest().authenticated())
         // .exceptionHandling(exceptions -> exceptions
         // .authenticationEntryPoint(customAuthenticationEntryPoint) // Set custom entry point
     

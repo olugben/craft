@@ -20,18 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class MaterialService {
     private static final Logger logger = LoggerFactory.getLogger(MaterialService.class);
-    // private Dotenv dotenv = Dotenv.load();
-
-    // public MaterialService() {
-    // dotenv = Dotenv.load();
-    // logger.info(getUploadDir());
-    // // Load the .env file
-    // }
-
-    // public String getUploadDir() {
-    // // Fetch the Upload directory from the .env file
-    // return dotenv.get("UPLOAD_DIR");
-    // }
+  
     @Autowired
     private TutorRepository tutorrepository;
 

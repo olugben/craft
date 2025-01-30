@@ -20,15 +20,24 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+    private static final String SECRET_KEY;
+
+    static {
+        Dotenv dotenv = Dotenv.load();
+        SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
+        if (SECRET_KEY == null) {
+            throw new RuntimeException("JWT_SECRET_KEY not found in .env file");
+        }
+    }
     private Dotenv dotenv = Dotenv.load();
 
 
 
     
-    private final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
+    // private final String SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
     
     public JwtService() {
-        dotenv = Dotenv.load();
+        // dotenv = Dotenv.load();
           // Load the .env file
     }
 
@@ -41,9 +50,7 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // public String generateToken(UserDetails userDetails) {
-    //     return generateToken(new HashMap<>(), userDetails);
-    // }
+  
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

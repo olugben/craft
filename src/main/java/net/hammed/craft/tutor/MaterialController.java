@@ -1,8 +1,4 @@
-// package net.hammed.craft.tutor;
 
-// public class TutorController {
-
-// }
 package net.hammed.craft.tutor;
 
 import java.io.IOException;
@@ -12,10 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+
 @RequestMapping("/api/v1/tutor/materials")
 public class MaterialController {
 
@@ -27,12 +25,15 @@ public class MaterialController {
             @RequestParam("files") List<MultipartFile> files,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
-            @RequestParam("tutor_id") Integer tutorId) {
-
+            @RequestParam("tutor_id") Integer tutorId,
+            @RequestHeader("Authorization") String auth) {
+            
         try {
+            System.out.println(auth);
             List<Material> savedMaterials = materialService.UploadMaterials(files, title, description, tutorId);
             return ResponseEntity.ok(savedMaterials);
         } catch (IOException e) {
+
             Material errorMaterial = Material.builder()
                     .title("Error")
                     .description("Error uploading materials: " + e.getMessage())
