@@ -58,6 +58,5 @@ jobs:
         echo "Deploying application..."
         ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_IP }} << 'EOF'
         sudo systemctl stop craft
-        
         sudo systemctl start craft
         EOF
