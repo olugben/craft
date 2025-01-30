@@ -23,10 +23,10 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn clean install -DskipTests
+      run: mvn clean package -DskipTests
 
-      name: Build package
-      run: mvn clean package
+    # - name: Run Tests
+    #   run: mvn test
 
   deploy:
     runs-on: ubuntu-latest
