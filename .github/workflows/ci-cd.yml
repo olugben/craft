@@ -29,6 +29,8 @@ jobs:
       run: |
         echo "Listing files in the workspace:"
         pwd
+    - name: Display full path of target folder
+      run: echo $(realpath target/craft-0.0.1-SNAPSHOT.jar)
 
   deploy:
     runs-on: ubuntu-latest
