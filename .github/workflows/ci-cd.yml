@@ -28,7 +28,7 @@ jobs:
     - name: List workspace files
       run: |
         echo "Listing files in the workspace:"
-        ls  -la target/
+        pwd
 
   deploy:
     runs-on: ubuntu-latest
