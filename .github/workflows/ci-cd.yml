@@ -23,12 +23,12 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn package -DskipTests
+      run: mvn clean install -DskipTests
 
     - name: List workspace files
       run: |
         echo "Listing files in the workspace:"
-        ls -R
+        ls  -la target/
 
   deploy:
     runs-on: ubuntu-latest
