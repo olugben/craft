@@ -53,6 +53,7 @@ jobs:
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
     - name: Check for the existence of the JAR file
       run: |
+        ls -la /home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar
         if [ -f home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ]; then
           echo "File exists";
         else
@@ -63,8 +64,8 @@ jobs:
     - name: Copy Files to EC2
       run: |
         echo "Copying files to EC2 instance..."
-        echo  -la target/
-        scp -i StrictHostKeyChecking=no -r home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/
+        echo  ls -la /home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar
+        scp -v StrictHostKeyChecking=no -r home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/
 
     - name: Deploy Application
       run: |
