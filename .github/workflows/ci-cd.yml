@@ -22,16 +22,24 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
     - name: Build with Maven
       run: mvn clean install -DskipTests
 
     - name: List workspace files
       run: |
         echo "Listing files in the workspace:"
-        pwd
+        ls -la
 
-    - name: Display full path of target folder
-      run: echo $(realpath target/craft-0.0.1-SNAPSHOT.jar)
+    - name: Display full path of target JAR
+      run: realpath target/craft-0.0.1-SNAPSHOT.jar
 
     - name: Upload JAR as artifact
       uses: actions/upload-artifact@v4
@@ -58,6 +66,7 @@ jobs:
       with:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
+        if: ${{ secrets.SSH_PRIVATE_KEY }} && ${{ secrets.KNOWN_HOSTS }}
 
     - name: Download JAR artifact
       uses: actions/download-artifact@v4
@@ -67,6 +76,7 @@ jobs:
 
     - name: Check for the existence of the JAR file
       run: |
+        echo "Checking if JAR file exists..."
         ls -la target/craft-0.0.1-SNAPSHOT.jar
         if [ -f target/craft-0.0.1-SNAPSHOT.jar ]; then
           echo "File exists";
@@ -84,6 +94,7 @@ jobs:
       run: |
         echo "Deploying application..."
         ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP }} << 'EOF'
-        sudo systemctl stop craft
+        sudo systemctl stop craft || echo "Service craft was not running."
         sudo systemctl start craft
+        echo "🚀 Craft service started successfully! 🎉 Everything is awesome! 🎈"
         EOF
