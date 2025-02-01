@@ -53,7 +53,7 @@ jobs:
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
     - name: Check for the existence of the JAR file
       run: |
-        if [ -f target/craft-0.0.1-SNAPSHOT.jar ]; then
+        if [ -f home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ]; then
           echo "File exists";
         else
           echo "File does not exist";
