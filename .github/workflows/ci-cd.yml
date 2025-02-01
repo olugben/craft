@@ -51,6 +51,14 @@ jobs:
       with:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
+    - name: Check for the existence of the JAR file
+      run: |
+        if [ -f target/craft-0.0.1-SNAPSHOT.jar ]; then
+          echo "File exists";
+        else
+          echo "File does not exist";
+          exit 1;
+        fi
 
     - name: Copy Files to EC2
       run: |
