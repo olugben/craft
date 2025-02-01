@@ -29,8 +29,15 @@ jobs:
       run: |
         echo "Listing files in the workspace:"
         pwd
+
     - name: Display full path of target folder
       run: echo $(realpath target/craft-0.0.1-SNAPSHOT.jar)
+
+    - name: Upload JAR as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: craft-app
+        path: target/craft-0.0.1-SNAPSHOT.jar
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,10 +58,17 @@ jobs:
       with:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+    - name: Download JAR artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: craft-app
+        path: target/
+
     - name: Check for the existence of the JAR file
       run: |
-        ls -la /home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar
-        if [ -f home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ]; then
+        ls -la target/craft-0.0.1-SNAPSHOT.jar
+        if [ -f target/craft-0.0.1-SNAPSHOT.jar ]; then
           echo "File exists";
         else
           echo "File does not exist";
@@ -64,8 +78,7 @@ jobs:
     - name: Copy Files to EC2
       run: |
         echo "Copying files to EC2 instance..."
-        echo  ls -la /home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar
-        scp -v StrictHostKeyChecking=no -r home/runner/work/craft/craft/target/craft-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/
+        scp -v -o StrictHostKeyChecking=no target/craft-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/
 
     - name: Deploy Application
       run: |
